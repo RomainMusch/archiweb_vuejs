@@ -1,6 +1,6 @@
 <template>
   <div id="liste_joueurs">
-    <h1>Liste des joueurs</h1>
+    <h1 class="sous-titre">Liste des joueurs</h1>
     <p>
       <button v-on:click="showCreate = !showCreate" >
         Ajouter un joueur
@@ -39,9 +39,9 @@ export default {
     return {
         joueurs:
         {
-            age_joueurs:0,
             idjoueurs:0,
             nom_joueurs:"",
+            age_joueurs:0,
             poste_joueurs:""
         },
         liste_joueurs: [],
@@ -53,8 +53,8 @@ export default {
     get_liste_joueurs() {
       axios
         .get(this.uri)
-        .then((res) => {
-          this.liste_joueurs = res.data;
+        .then((response) => {
+          this.liste_joueurs = response.data;
           console.log(this.liste_joueurs);
         })
         .catch((error) => {
@@ -62,8 +62,8 @@ export default {
         });
     },
     ajouterJoueur() {
-      axios.post(this.uri, this.joueurs).then((res) => {
-        console.log(res);
+      axios.post(this.uri, this.joueurs).then((response) => {
+        console.log(response);
         this.showCreate = false;
         this.get_liste_joueurs();
       })
@@ -73,9 +73,9 @@ export default {
       console.log("sauvegardé");
     },
     supprimerJoueur(idjoueurs) {
-        axios.delete(this.uri + idjoueurs).then((res) => {
+        axios.delete(this.uri + idjoueurs).then((response) => {
             this.get_liste_joueurs();
-            console.log(res.data);
+            console.log(response.data);
         })
       . catch(error => {
         console.log(error)
@@ -84,8 +84,8 @@ export default {
     },
     modifierJoueur(joueurs) {
         console.log(joueurs)
-        axios.put(this.uri + joueurs.idjoueurs, joueurs.nom_joueurs, joueurs.age_joueurs, joueurs.poste_joueurs).then((res) => {
-           console.log(res.data);
+        axios.put(this.uri + joueurs.idjoueurs, joueurs.nom_joueurs, joueurs.age_joueurs, joueurs.poste_joueurs).then((response) => {
+           console.log(response.data);
         })
       . catch(error => {
         console.log(error)
@@ -95,8 +95,8 @@ export default {
   },
   mounted() {
     console.log("mount");
-    axios.get(this.uri).then((res) => {
-      this.liste_joueurs = res.data;
+    axios.get(this.uri).then((response) => {
+      this.liste_joueurs = response.data;
     });
   },
 };
@@ -110,15 +110,18 @@ export default {
 
 <style>
 #liste_joueurs {
-    background-color: #a2b9bc;
-    margin: 10px auto;
+    background-color: #828192;
+    margin: 20px auto;
     padding: 10px;
-    width: 500px;
+    width: 700px;
+}
+.sous-titre{
+  text-decoration: underline;
 }
 button {
     color: #fff;
     text-decoration: none;
-    background: #6b5b95;
+    background: #b1b8f7;
     padding: 5px;
     border-radius: 5px;
     display: inline-block;

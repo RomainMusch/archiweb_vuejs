@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>FootDiv</h1>
+    <h1> ◄ FootDiv ► </h1>
     <ListeJoueurs></ListeJoueurs>
   </div>
 </template>
@@ -22,8 +22,8 @@ export default {
 #app {
 	font-family: Helvetica, Arial, sans-serif;
 	text-align: center;
-	color: #2c3e50;
-	background-color: #878f99;
+	color: #f9f7f8;
+	background-color: #383a3b;
 	margin: 10px auto;
 	padding: 10px;
 }
