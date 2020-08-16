@@ -44,15 +44,14 @@ export default {
             age_joueurs:0,
             poste_joueurs:""
         },
-        liste_joueurs: [],
-        uri: "http://localhost:8000/API/joueurs",
+        liste_joueurs : [],
         showCreate: false,
     };
   },
   methods: {
-    get_liste_joueurs() {
+    listeJoueurs() {
       axios
-        .get(this.uri)
+        .get("http://localhost:8000/API/joueurs")
         .then((response) => {
           this.liste_joueurs = response.data;
           console.log(this.liste_joueurs);
@@ -62,10 +61,10 @@ export default {
         });
     },
     ajouterJoueur() {
-      axios.post(this.uri, this.joueurs).then((response) => {
+      axios.post("http://localhost:8000/API/joueurs", this.joueurs).then((response) => {
         console.log(response);
         this.showCreate = false;
-        this.get_liste_joueurs();
+        this.listeJoueurs();
       })
       . catch(error => {
         console.log(error)
@@ -73,8 +72,8 @@ export default {
       console.log("sauvegardé");
     },
     supprimerJoueur(idjoueurs) {
-        axios.delete(this.uri + idjoueurs).then((response) => {
-            this.get_liste_joueurs();
+        axios.delete("http://localhost:8000/API/joueurs" + idjoueurs).then((response) => {
+            this.listeJoueurs();
             console.log(response.data);
         })
       . catch(error => {
@@ -84,7 +83,7 @@ export default {
     },
     modifierJoueur(joueurs) {
         console.log(joueurs)
-        axios.put(this.uri + joueurs.idjoueurs, joueurs.nom_joueurs, joueurs.age_joueurs, joueurs.poste_joueurs).then((response) => {
+        axios.put("http://localhost:8000/API/joueurs" + joueurs.idjoueurs, joueurs.nom_joueurs, joueurs.age_joueurs, joueurs.poste_joueurs).then((response) => {
            console.log(response.data);
         })
       . catch(error => {
@@ -95,7 +94,7 @@ export default {
   },
   mounted() {
     console.log("mount");
-    axios.get(this.uri).then((response) => {
+    axios.get("http://localhost:8000/API/joueurs").then((response) => {
       this.liste_joueurs = response.data;
     });
   },
