@@ -12,18 +12,18 @@
             <input type="text" id="nom_joueurs" name="nom_joueurs" v-model="joueurs.nom_joueurs" required></br></br>
 
             <label> Age du joueur: </label> </br>
-            <input type="int" id="age_joueurs" name="age_joueurs"v-model="joueurs.age_joueurs" required></br></br>
+            <input type="int" id="age_joueurs" name="age_joueurs" v-model="joueurs.age_joueurs" required></br></br>
 
             <label> Poste du joueur: </label> </br>
-            <input type="text"  id="poste_joueurs" name="poste_joueurs"v-model="joueurs.poste_joueurs" required><br></br>
+            <input type="text"  id="poste_joueurs" name="poste_joueurs" v-model="joueurs.poste_joueurs" required><br></br>
 
-            <button v-on:click="ajouterJoueur()">Sauvegarder</button>
+            <button v-on:click="ajouterJoueur()"> Sauvegarder </button>
 
         </form>
     </div>
 
-    <div v-for="joueurs in liste_joueurs" v-bind:key="joueurs.idjoueurs">
-        <Joueur v-bind:joueurs="joueurs" @event_delete="supprimerJoueur"  @event_update="modifierJoueur"></Joueur>
+    <div v-for="joueur in liste_joueurs" v-bind:key="joueur.idjoueurs">
+        <Joueur v-bind:joueurs="joueur" @event_delete="supprimerJoueur"  @event_update="modifierJoueur"></Joueur>
     </div>
   </div>
 </template>
@@ -41,17 +41,18 @@ export default {
         {
             idjoueurs:0,
             nom_joueurs:"",
-            age_joueurs:0,
+            age_joueurs:"",
             poste_joueurs:""
         },
         liste_joueurs : [],
+        uri: "http://localhost:8000/API/joueurs",
         showCreate: false,
     };
   },
   methods: {
     listeJoueurs() {
       axios
-        .get("http://localhost:8000/API/joueurs")
+        .get(this.uri)
         .then((response) => {
           this.liste_joueurs = response.data;
           console.log(this.liste_joueurs);
@@ -61,7 +62,7 @@ export default {
         });
     },
     ajouterJoueur() {
-      axios.post("http://localhost:8000/API/joueurs", this.joueurs).then((response) => {
+      axios.post(this.uri, this.joueurs).then((response) => {
         console.log(response);
         this.showCreate = false;
         this.listeJoueurs();
@@ -72,30 +73,30 @@ export default {
       console.log("sauvegardé");
     },
     supprimerJoueur(idjoueurs) {
-        axios.delete("http://localhost:8000/API/joueurs" + idjoueurs).then((response) => {
+        axios.delete(this.uri + idjoueurs).then((response) => {
             this.listeJoueurs();
             console.log(response.data);
         })
       . catch(error => {
         console.log(error)
     });
-      console.log("deleted item " + idjoueurs);
+      console.log("Joueur supprimé: " + idjoueurs);
     },
     modifierJoueur(joueurs) {
         console.log(joueurs)
-        axios.put("http://localhost:8000/API/joueurs" + joueurs.idjoueurs, joueurs.nom_joueurs, joueurs.age_joueurs, joueurs.poste_joueurs).then((response) => {
+        axios.put(this.uri + joueurs.idjoueurs, joueurs.nom_joueurs, joueurs.age_joueurs, joueurs.poste_joueurs).then((response) => {
            console.log(response.data);
         })
       . catch(error => {
         console.log(error)
     });
-      console.log("update item " + joueurs.idjoueurs);
+      console.log("Joueur modifié: " + joueurs.idjoueurs);
     }
   },
   mounted() {
-    console.log("mount");
-    axios.get("http://localhost:8000/API/joueurs").then((response) => {
-      this.liste_joueurs = response.data;
+    console.log(this.uri);
+    axios.get(this.uri).then((response) => {
+      this.liste_joueurs = response.data.joueurs;
     });
   },
 };

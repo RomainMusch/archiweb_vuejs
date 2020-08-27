@@ -1,12 +1,12 @@
 <template>
     <div class="joueur">
-            <h3><span v-if="showInput==false"> 
 
-                <h4>{{joueurs.nom_joueurs}}</h4>
-
+            <h3><span v-if="showInput==false">
+                <h4> {{joueurs.nom_joueurs}} ({{joueurs.age_joueurs}} ans, {{joueurs.poste_joueurs}})</h4>
                 <button v-on:click="showInput=true">Modifier</button> 
                 </span>
             </h3>
+
             <span v-if="showInput">
                 <form>
                     <label> Nom du joueur: </label> </br>
@@ -18,11 +18,11 @@
                     <label> Poste du joueur: </label> </br>
                     <input type="text"  id="poste_joueurs" name="poste_joueurs"v-model="joueurs.poste_joueurs"><br>
 
-                    <button v-on:click="modifierJoueurs(joueurs)">Sauvegarder</button> 
+                    <button v-on:click="modifierJoueur(joueurs)"> Sauvegarder </button> 
                 </form>
             </span>
 
-            <button v-on:click="supprimerJoueur(joueurs.idjoueurs)">Supprimer</button>
+            <button v-on:click="supprimerJoueur(joueurs.idjoueurs)"> Supprimer </button>
 
     </div> 
 </template>
@@ -50,8 +50,13 @@
 <style >
     .joueur {
         background-color:lightgrey;
-        width: 300px;
+        width: 400px;
         margin: 5px auto;
         padding : 5px;
+    }
+    button:hover{
+        background-color: blue;
+        color:white;
+        cursor:pointer;
     }
 </style>
